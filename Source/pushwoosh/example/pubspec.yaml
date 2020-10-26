@@ -16,11 +16,13 @@ dev_dependencies:
   pushwoosh:
     path: ../
 
-  pushwoosh_geozones:
-    path: ../../pushwoosh_geozones
+  firebase_messaging: ^7.0.3
 
-  pushwoosh_inbox:
-    path: ../../pushwoosh_inbox
+ # pushwoosh_geozones:
+   # path: ../../pushwoosh_geozones
+
+  #pushwoosh_inbox:
+  #  path: ../../pushwoosh_inbox
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

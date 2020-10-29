@@ -138,7 +138,10 @@
 #pragma mark - PushNotificationDelegate
 
 - (void)onDidRegisterForRemoteNotificationsWithDeviceToken:(NSString *)token {
-    _registerResult(token);
+  if (_registerResult) {
+    return _registerResult(token);
+  }
+  return;
 }
 
 - (void)onDidFailToRegisterForRemoteNotificationsWithError:(NSError *)error {

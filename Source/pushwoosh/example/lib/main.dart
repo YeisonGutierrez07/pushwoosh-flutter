@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pushwoosh/pushwoosh.dart';
-import 'package:pushwoosh_geozones/pushwoosh_geozones.dart';
-import 'package:pushwoosh_inbox/pushwoosh_inbox.dart';
 
 void main() => runApp(new MyApp());
 
@@ -32,7 +30,6 @@ class _MyAppState extends State<MyApp> {
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     Pushwoosh.initialize({"app_id": "5927F-D517A", "sender_id": "YOUR_SENDER_ID"});
-
     setState(() {
       _message = "Ready";
       addLog();
@@ -170,7 +167,7 @@ class _MyAppState extends State<MyApp> {
     String result = "Event did sent";
 
     try {
-      await Pushwoosh.getInstance.postEvent("appOpen", {"test": "test"});
+      await Pushwoosh.getInstance.postEvent("ProductAdd", {"productId": 13344});
     } catch (e) {
       result = e.toString();
     }
@@ -179,70 +176,6 @@ class _MyAppState extends State<MyApp> {
       _message = result;
       addLog();
     });
-  }
-
-  void _startLocationTracking() async {
-    try {
-      await PushwooshGeozones.startLocationTracking();
-    } catch(e){
-      _message = e.toString();
-      addLog();
-    }
-
-
-    setState(() {
-      _message = "Location tracking did start";
-      addLog();
-    });
-  }
-
-  void _stopLocationTracking() {
-    PushwooshGeozones.stopLocationTracking();
-
-    setState(() {
-      _message = "Location tracking did stop";
-      addLog();
-    });
-  }
-
-  void _showInbox() {
-    PWInboxStyle style = PWInboxStyle();
-
-    style.dateFormat = "dd.MM.yyyy";
-
-    style.defaultImage = "assets/inbox-1.png";
-    style.unreadImage = "assets/bubble-2.png";
-    style.listErrorImage = "assets/alert-2.png";
-    style.listEmptyImage = "assets/inbox-1.png";
-    
-    style.listErrorMessage = "Custom error message";
-    style.listEmptyMessage = "Custom empty message";
-    style.barTitle = "Custom inbox title";
-
-    style.accentColor = "#FF00FF";
-    style.backgroundColor = "#FFFF00";
-    style.highlightColor = "#FF0FFF";
-
-    style.imageTypeColor = "#00F0FF";
-    style.readImageTypeColor = "#FF000F";
-
-    style.titleColor = "#00F0FF";
-    style.readTitleColor = "#00FF0F";
-    style.defaultTextColor = "#FF00FF";
-
-    style.descriptionColor = "#FF000F";
-    style.readDescriptionColor = "#00FF0F";
-
-    style.dateColor = "#00F0FF";
-    style.readDateColor = "#F0FF0F";
-
-    style.dividerColor = "#FF000F";
-
-    style.barBackgroundColor = "#FF000F";
-    style.barAccentColor = "#0000FF";
-    style.barTextColor = "#00FF00";
-    
-    PushwooshInbox.presentInboxUI(style: style);
   }
 
   @override
@@ -282,10 +215,6 @@ class _MyAppState extends State<MyApp> {
                           child: Text('unregisterForPushNotifications'),
                           onPressed: () => _unregisterForPushNotifications(),
                         ),
-                         new CupertinoButton(
-                          child: Text('showInbox'),
-                          onPressed: () => _showInbox(),
-                        ),
                         new CupertinoButton(
                           child: Text('getTags'),
                           onPressed: () => _getTags(),
@@ -305,14 +234,6 @@ class _MyAppState extends State<MyApp> {
                         new CupertinoButton(
                           child: Text('postEvent'),
                           onPressed: () => _postEvent(),
-                        ),
-                        new CupertinoButton(
-                          child: Text('startLocationTracking'),
-                          onPressed: _startLocationTracking,
-                        ),
-                        new CupertinoButton(
-                          child: Text('stopLocationTracking'),
-                          onPressed: _stopLocationTracking,
                         ),
                         new MergeSemantics(
                           child: new ListTile(
